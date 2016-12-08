@@ -53,7 +53,7 @@
                       <p class="qna-comment-count"><strong>2</strong>개의 의견</p>
                       <div class="qna-comment-slipp-articles">
 						  {{#answers}}
-                          <article class="article" id="answer-1405">
+                          <article class="article" id="answer-{{id}}">
                               <div class="article-header">
                                   <div class="article-header-thumb">
                                       <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
@@ -74,20 +74,21 @@
                                           <a class="link-modify-article" href="/questions/{{question.id}}/answers/{{id}}/form">수정</a>
                                       </li>
                                       <li>
-                                          <form class="form-delete" action="/questions/{{question.id}}/answers/{{id}}" method="POST">
-                                              <input type="hidden" name="_method" value="DELETE">
-                                              <button type="submit" class="link-delete-article">삭제</button>
+                                          <form class="form-delete" action="/api/questions/{{question.id}}/answers/{{id}}" method="DELETE">
+                                              <button type="submit" class="link-delete-article"
+                                                      data-question-id = {{question.id}}
+                                                      data-answer-id = {{id}}>삭제</button>
                                           </form>
                                       </li>
                                   </ul>
                               </div>
                           </article>
                           {{/answers}}
-                          <form class="answer-write" method="post" action="/questions/{{id}}/answers">
+                          <form class="answer-write" method="post" action="/api/questions/{{id}}/answers">
                               <div class="form-group" style="padding:14px;">
                                   <textarea class="form-control" placeholder="Update your status" name="contents"></textarea>
                               </div>
-                              <input type="submit" class="btn btn-success pull-right" value="답변하기"/>
+                              <button class="btn btn-success pull-right">답변하기</button>
                               <div class="clearfix" />
                           </form>
                       </div>

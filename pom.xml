@@ -6,7 +6,8 @@
 	<groupId>net.slipp</groupId>
 	<artifactId>my-jwp2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<!--<packaging>jar</packaging>-->
+	<packaging>war</packaging>
 
 	<name>my-jwp2</name>
 	<description>Demo project for Spring Boot</description>
@@ -54,6 +55,12 @@
 			<version>1.4.193</version>
 		</dependency>
 
+		<!-- do not commit :: scope provided -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

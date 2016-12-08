@@ -15,12 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Where;
 
 @Entity
 public class Question {
 	@Id
 	@GeneratedValue
+	@JsonProperty
 	private Long id;
 	
 	@ManyToOne
@@ -28,6 +30,7 @@ public class Question {
 	private User writer;
 	
 	@Column(length = 100, nullable = false)
+	@JsonProperty
 	private String title;
 
 	@Column(nullable = false)

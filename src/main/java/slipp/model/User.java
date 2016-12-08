@@ -1,5 +1,7 @@
 package slipp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +14,14 @@ public class User {
 	private Long id;
 	
 	@Column(unique=true, length=20, nullable=false)
+	@JsonProperty
 	private String userId;
 	
 	@Column(length=20, nullable=false)
 	private String password;
 	
 	@Column(length=20, nullable=false)
+	@JsonProperty
 	private String name;
 	
 	@Column(length=30)

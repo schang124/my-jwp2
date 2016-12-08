@@ -4,49 +4,45 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import slipp.model.Answer;
-import slipp.model.AnswerRepository;
-import slipp.model.Question;
-import slipp.model.QuestionRepository;
-import slipp.model.User;
+import slipp.model.*;
 import slipp.utils.HttpSessionUtils;
 
-@Controller
-@RequestMapping("/questions/{questionId}/answers")
+@RestController
+@RequestMapping("/api/questions/{questionId}/answers")
 public class AnswerController {
 	@Autowired
 	private QuestionRepository questionRepository;
 	
 	@Autowired
 	private AnswerRepository answerRepository;
-	
+
+
 	@PostMapping("")
-	public String create(@PathVariable Long questionId, String contents, HttpSession session) {
-		if (!HttpSessionUtils.isLoginUser(session)) {
-			return "/user/login";
+	public Answer create(@PathVariable Long questionId, String contents, HttpSession session){
+		if(!HttpSessionUtils.isLoginUser(session)) {
+			return new Answer();
 		}
-		
+
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
 		Question question = questionRepository.findOne(questionId);
 		Answer answer = new Answer(loginUser, question, contents);
-		answerRepository.save(answer);
-		return String.format("redirect:/questions/%d", questionId);
+
+		return answerRepository.save(answer);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable Long questionId, @PathVariable Long id, HttpSession session) {
+	public Result delete (@PathVariable Long questionId, @PathVariable Long id, HttpSession session) {
 		if (!HttpSessionUtils.isLoginUser(session)) {
-			return "/user/login";
+			return Result.fail("로그인 사용자만 답변쓰기가 가능합니다");
 		}
+
+		System.out.println("id : " + id);
 		User loginUser = HttpSessionUtils.getUserFromSession(session);
 		Answer answer = answerRepository.findOne(id);
 		answer.delete(loginUser);
 		answerRepository.save(answer);
-		return String.format("redirect:/questions/%d", questionId);
+		return Result.ok();
 	}
 }
